@@ -29,7 +29,9 @@ require(["vs/editor/editor.main"], function () {
         overviewRulerBorder: false,
         overviewRulerLanes: 0,
         smoothScrolling: false,
+        cursorSurroundingLines: 2,
     });
+    
     // Resize the editor when the window size changes
     const editorElement = document.getElementById("editor");
     window.addEventListener("resize", () => editor.layout({
@@ -122,6 +124,7 @@ require(["vs/editor/editor.main"], function () {
         run: function (edi) {
             globalThis.txtValue = edi.getValue();
             saveFile();
+            document.getElementById('banner').innerText = "Saved";
         }
     });
 
