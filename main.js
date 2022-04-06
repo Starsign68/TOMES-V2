@@ -124,7 +124,7 @@ require(["vs/editor/editor.main"], function () {
         run: function (edi) {
             globalThis.txtValue = edi.getValue();
             saveFile();
-            document.getElementById('banner').innerText = "Saved";
+            document.getElementById('saved').innerText = "Saved";
         }
     });
 
