@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Monaco Editor from CDN example, with automatic resizing</title>
+    <style>
+        /* Flex column layout, with the editor taking up all available screen space */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #editor {
+            flex-grow: 1;
+            border: solid 5px #1e1e1e;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body style="background: #1e1e1e;">
+    <div id="editor"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/loader.min.js"></script>
+    <script src="./sw.js"></script>
+    <script src="./DEV.js"></script>
+
+    <script>
+/* document.addEventListener("DOMContentLoaded", () => {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+            .register('./sw.js')
+            .then(serviceWorker => {
+                alert('Service Worker registered: ' + serviceWorker);
+
+                navigator.serviceWorker.onmessage = event => {
+                    const message = JSON.parse(event.data);
+                        console.log(message.data);
+                }
+            })
+            .catch(error => {
+                alert('Error registering the Service Worker: ' + error);
+            });
+    } });*/
+
+let url = new URL(document.location.href);
+let Lang = url.searchParams.get("lang");
+let Theme = url.searchParams.get("theme");
+
+    </script>
+</body>
+
+</html>
