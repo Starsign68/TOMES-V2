@@ -109,7 +109,7 @@ require(["vs/editor/editor.main"], function () {
 
         run: function (edi) {
             globalThis.txtValue = edi.getValue();
-            DEV.saveFile();
+            saveFile();
         }
     });
 
@@ -126,7 +126,7 @@ require(["vs/editor/editor.main"], function () {
 
         run: function (edi) {
             globalThis.txtValue = edi.getValue();
-            DEV.saveFileAs();
+            saveFile();
         }
     });
 
@@ -142,7 +142,7 @@ require(["vs/editor/editor.main"], function () {
         contextMenuOrder: 0,
 
         run: function (edi) {
-            DEV.openFile().then(() => edi.setValue(globalThis.txtValue));
+            openFile().then(() => edi.setValue(globalThis.txtValue));
         }
     });
 
