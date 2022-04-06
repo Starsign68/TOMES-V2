@@ -15,9 +15,9 @@ require(["vs/editor/editor.main"], function () {
     let Theme = url.searchParams.has("theme") ? url.searchParams.get("theme") : "vs-dark";
     const model = monaco.editor.createModel("", Lang, monaco.Uri.parse('inmemory://1'));
 
-model.onDidChangeContent(() => {
-            document.getElementById('saved').innerText = "Changed";
-});
+    model.onDidChangeContent(() => {
+        document.getElementById('saved').innerText = "Changed";
+    });
     const editor = monaco.editor.create(document.getElementById("editor"), {
         model,
         value: "",
@@ -37,7 +37,7 @@ model.onDidChangeContent(() => {
         smoothScrolling: false,
         cursorSurroundingLines: 2,
     });
-    
+
     // Resize the editor when the window size changes
     const editorElement = document.getElementById("editor");
     window.addEventListener("resize", () => editor.layout({
