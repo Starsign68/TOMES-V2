@@ -13,7 +13,13 @@ require(["vs/editor/editor.main"], function () {
     let Lang = url.searchParams.has("lang") ? url.searchParams.get("lang") : "javascript";
     let MiniMap = url.searchParams.has("mm") ? true : false;
     let Theme = url.searchParams.has("theme") ? url.searchParams.get("theme") : "vs-dark";
+    const model = monaco.editor.createModel("", Lang, monaco.Uri.parse('inmemory://1'));
+
+model.onDidChangeContent(() => {
+            document.getElementById('saved').innerText = "Changed";
+});
     const editor = monaco.editor.create(document.getElementById("editor"), {
+        model,
         value: "",
         loading: "",
         language: Lang,
@@ -163,6 +169,7 @@ require(["vs/editor/editor.main"], function () {
 
 
 });
+
 const optionsO = {
     acceptSuggestionOnCommitCharacter: true,
     acceptSuggestionOnEnter: "on",
