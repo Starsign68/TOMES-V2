@@ -37,23 +37,17 @@ require(["vs/editor/editor.main"], function () {
         height: editorElement.offsetHeight
     }));
     async function openFile() {
-  if ('showOpenFilePicker' in window) { 
-    [fileHandle] = await window.showOpenFilePicker(); 
-    const file = await fileHandle.getFile(); 
-    const contents = await file.text(); 
-    globalThis.txtValue = contents; 
-  } else {
-    alert('API not supported');
-  }
-}
-async function saveFile() {
-  if ('showSaveFilePicker' in window) { 
-    const newHandle = await window.showSaveFilePicker(); 
-      const writableStream = await newHandle.createWritable(); 
-        await writableStream.write(globalThis.txtValue); 
-      await writableStream.close(); 
-  }
-}
+        [fileHandle] = await window.showOpenFilePicker();
+        const file = await fileHandle.getFile();
+        const contents = await file.text();
+        globalThis.txtValue = contents;
+    }
+    async function saveFile() {
+        const newHandle = await window.showSaveFilePicker();
+        const writableStream = await newHandle.createWritable();
+        await writableStream.write(globalThis.txtValue);
+        await writableStream.close();
+    }
     let Open = editor.addCommand(
         0,
         function (edi) {
