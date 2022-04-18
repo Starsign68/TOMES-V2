@@ -4,6 +4,11 @@
 <head>
     <meta charset="utf-8" />
    <link rel="manifest" href="app.webmanifest">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/loader.min.js"></script>
+    <script src="./main.js" defer></script>
+    <script src="./FileSys.js"></script>
+	<meta property="og:image" content="icons/file-code-regular.svg">
+
     <title>Test</title>
     <style>
         /* Flex column layout, with the editor taking up all available screen space */
@@ -37,9 +42,7 @@
 
     <div id="editor"></div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/loader.min.js"></script>
-    <script src="./main.js"></script>
-    <script src="./FileSys.js"></script>
+    
 
     <script>
         let url = new URL(document.location.href);
