@@ -7,7 +7,9 @@ self.MonacoEnvironment = { baseUrl: "https://cdnjs.cloudflare.com/ajax/libs/mona
 importScripts("https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/base/worker/workerMain.min.js");` )}`;
     }
 };
-
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js');
+}
 require(["vs/editor/editor.main"], function () {
     let url = new URL(document.location.href);
     let Lang = url.searchParams.has("lang") ? url.searchParams.get("lang") : "javascript";
@@ -45,14 +47,20 @@ require(["vs/editor/editor.main"], function () {
         height: editorElement.offsetHeight
     }));
     async function openFile() {
-        [fileHandle] = await window.showOpenFilePicker();
-        const file = await fileHandle.getFile();
+        [fH] = await window.showOpenFilePicker();
+        const file = await fH.getFile();
         const contents = await file.text();
         globalThis.txtValue = contents;
+        const type = await file.type;
+        globalThis.curTyp = type;
+
     }
     async function saveFile() {
-        const newHandle = await window.showSaveFilePicker();
-        const writableStream = await newHandle.createWritable();
+        if (!globalThis?.fH) {
+            let fHandle = await window.showSaveFilePicker();
+            globalThis.fH = fHandle;
+        } else { fHandle = fH };
+        const writableStream = await fHandle.createWritable();
         await writableStream.write(globalThis.txtValue);
         await writableStream.close();
     }
@@ -166,71 +174,5 @@ require(["vs/editor/editor.main"], function () {
             openFile().then(() => edi.setValue(globalThis.txtValue));
         }
     });
-
-
 });
 
-const optionsO = {
-    acceptSuggestionOnCommitCharacter: true,
-    acceptSuggestionOnEnter: "on",
-    accessibilitySupport: "auto",
-    autoIndent: true,
-    automaticLayout: true,
-    codeLens: true,
-    colorDecorators: true,
-    contextmenu: true,
-    cursorBlinking: "phase",
-    cursorSmoothCaretAnimation: true,
-    cursorStyle: "line-thin",
-    disableLayerHinting: false,
-    disableMonospaceOptimizations: false,
-    dragAndDrop: false,
-    fixedOverflowWidgets: false,
-    folding: true,
-    foldingStrategy: "auto",
-    fontLigatures: false,
-    fontSize: 14,
-    formatOnPaste: false,
-    formatOnType: false,
-    hideCursorInOverviewRuler: false,
-    highlightActiveIndentGuide: true,
-    glyphMargin: true,
-    lineHeight: 1.5,
-    links: true,
-    mouseWheelZoom: false,
-    multiCursorMergeOverlapping: true,
-    multiCursorModifier: "ctrlKey",
-    overviewRulerBorder: false,
-    overviewRulerLanes: 0,
-    quickSuggestions: true,
-    quickSuggestionsDelay: 500,
-    readOnly: false,
-    renderControlCharacters: false,
-    renderFinalNewline: true,
-    renderIndentGuides: true,
-    renderLineHighlight: "all",
-    renderWhitespace: "none",
-    revealHorizontalRightPadding: "none",
-    roundedSelection: false,
-    rulers: [],
-    scrollBeyondLastColumn: false,
-    scrollBeyondLastLine: false,
-    selectOnLineNumbers: true,
-    selectionClipboard: true,
-    selectionHighlight: true,
-    showFoldingControls: "mouseover",
-    smoothScrolling: false,
-    snippetSuggestions: "top",
-    suggestOnTriggerCharacters: true,
-    wordBasedSuggestions: true,
-    wordSeparators: "~!@#$%^&*()-=+[{]}|;:'\",.<>/?",
-    wordWrap: "off",
-    wordWrapBreakAfterCharacters: "\t})]?|&,;",
-    wordWrapBreakBeforeCharacters: "{([+ ",
-    wordWrapBreakObtrusiveCharacters: ".",
-    wordWrapColumn: 80,
-    wordWrapMinified: true,
-    wrappingIndent: "none",
-    minimap: { enabled: false, renderCharacters: false },
-    padding: { top: "0px", bottom: "0px" },
-};
